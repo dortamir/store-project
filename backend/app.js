@@ -27,12 +27,12 @@ const createApp = async function () {
   console.log('App Created !');
   await db.connect(
     "mongodb+srv://shaniattias851:shaniattias851@cluster0.wtvqcd7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-  ).then(()=>{
+  ).then(() => {
     console.log('Database Connected!');
   })
-  .catch(()=>{
-    console.log('failed');
-  })
+    .catch(() => {
+      console.log('failed');
+    })
 
 
 
@@ -97,7 +97,7 @@ const createApp = async function () {
     // Check if the user is logged in and retrieve the username from the cookies or wherever you store it
     const loggedIn = req.session.user || req.cookies.user;
     const username = loggedIn ? loggedIn.username : null;
-  
+
     // Render the index.ejs template and pass the loggedIn and username variables as data
     res.render('index', { loggedIn: !!loggedIn, username: username });
   });
@@ -206,50 +206,39 @@ const createApp = async function () {
     }
   });
 
-    app.get("/contact", (req, res) => {
-      res.render("contact");
-    });
+  app.get("/contact", (req, res) => {
+    res.render("contact");
+  });
 
 
-      app.get("/earrings", async (req, res) => {
-        try {
-          const username = req.cookies.user ? req.cookies.user.username : null;
-          const earrings = await Item.find({ type: "Earrings" }).exec();
-          
-          res.render("earrings", { username, earrings });
-        } catch (error) {
-          console.error(error);
-          res.status(500).json({ message: "Failed to retrieve earrings" });
-        }
-      });
+  app.get("/earrings", async (req, res) => {
+    try {
+      const username = req.cookies.user ? req.cookies.user.username : null;
+      const earrings = await Item.find({ type: "Earrings" }).exec();
 
-
-
-      
-      app.get("/up", (req, res) => {
-      res.render("up");
-      });
-
-            app.get("/graf", (req, res) => {
-              res.render("graf");
-            });
-
-
-        app.get("/up", (req, res) => {
-          const username = req.cookies.user ? req.cookies.user.username : null; // Retrieve the 'username' cookie value if available
-          res.render("up", { username });
-        });
+      res.render("earrings", { username, earrings });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Failed to retrieve earrings" });
+    }
+  });
 
 
 
 
+  app.get("/up", (req, res) => {
+    res.render("up");
+  });
+
+  app.get("/graf", (req, res) => {
+    res.render("graf");
+  });
 
 
-  
-
-
-      
-
+  app.get("/up", (req, res) => {
+    const username = req.cookies.user ? req.cookies.user.username : null; // Retrieve the 'username' cookie value if available
+    res.render("up", { username });
+  });
 
   return app;
 };
